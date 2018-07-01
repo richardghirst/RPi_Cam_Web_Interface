@@ -57,6 +57,48 @@
    //
    // code for servo
    //
+   if(isset($_GET["x"])) {
+      try {
+         $input = json_decode(file_get_contents(BASE_DIR . '/' . SERVO_DATA), true);
+         foreach($servoData as $key => $value) {
+            if (array_key_exists($key, $input)) {
+               $servoData[$key] = $input[$key];
+            }
+         }
+      } catch (Exception $e) {
+      }
+    
+      $action = $_GET["x"];
+      $servo = "2=" . $action . "\n";
+      $fs = fopen(SERVO_CMD, "w");
+      fwrite($fs, $servo);
+      fclose($fs);
+      $servo = "0=" . $action . "\n";
+      $fs = fopen(SERVO_CMD, "w");
+      fwrite($fs, $servo);
+      fclose($fs);
+      $servoData['x'] = $action;
+      file_put_contents(BASE_DIR . '/' . SERVO_DATA, json_encode($servoData));
+   }
+   if(isset($_GET["y"])) {
+      try {
+         $input = json_decode(file_get_contents(BASE_DIR . '/' . SERVO_DATA), true);
+         foreach($servoData as $key => $value) {
+            if (array_key_exists($key, $input)) {
+               $servoData[$key] = $input[$key];
+            }
+         }
+      } catch (Exception $e) {
+      }
+    
+      $action = $_GET["y"];
+      $servo = "1=" . $action . "\n";
+      $fs = fopen(SERVO_CMD, "w");
+      fwrite($fs, $servo);
+      fclose($fs);
+      $servoData['y'] = $action;
+      file_put_contents(BASE_DIR . '/' . SERVO_DATA, json_encode($servoData));
+   }
    if(isset($_GET["action"])) {
       try {
          $input = json_decode(file_get_contents(BASE_DIR . '/' . SERVO_DATA), true);
@@ -78,22 +120,22 @@
          case 'Xplus':
             $servoData['x'] += $servoData['XStep'];
             $servoData['x'] = min($servoData['x'], $servoData['XMax']);
-            $servo = '1=' . $servoData['x'] . "\n";
+            $servo = '2=' . $servoData['x'] . "\n";
             break;
          case 'Xminus':
             $servoData['x'] -= $servoData['XStep'];
             $servoData['x'] = max($servoData['x'], $servoData['XMin']);
-            $servo = '1=' . $servoData['x'] . "\n";
+            $servo = '2=' . $servoData['x'] . "\n";
             break;
          case 'Yminus':
             $servoData['y'] -= $servoData['YStep'];
             $servoData['y'] = max($servoData['y'], $servoData['YMin']);
-            $servo = '0=' . $servoData['y'] . "\n";
+            $servo = '1=' . $servoData['y'] . "\n";
             break;
          case 'Yplus':
             $servoData['y'] += $servoData['YStep'];
             $servoData['y'] = min($servoData['y'], $servoData['YMax']);
-            $servo = '0=' . $servoData['y'] . "\n";
+            $servo = '1=' . $servoData['y'] . "\n";
             break;
       }
       if ($servo != '') {
@@ -104,4 +146,12 @@
       file_put_contents(BASE_DIR . '/' . SERVO_DATA, json_encode($servoData));
    }
  
+   function initServoPos() {
+      try {
+         $input = json_decode(file_get_contents(BASE_DIR . '/' . SERVO_DATA), true);
+         echo '<script type="text/javascript">init_pt(',$input['x'],',',$input['y'],');</script>';
+      } catch (Exception $e) {
+      }
+   }
+
 ?>

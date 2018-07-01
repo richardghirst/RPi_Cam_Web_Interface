@@ -5,6 +5,8 @@ function toggle_fullscreen(e) {
 
   var background = document.getElementById("background");
 
+  //e.preventDefault();
+
   if(!background) {
     background = document.createElement("div");
     background.id = "background";
@@ -19,7 +21,7 @@ function toggle_fullscreen(e) {
     e.className = "fullscreen";
     background.style.display = "block";
   }
-
+  return false;
 }
 
 function set_display(value) {

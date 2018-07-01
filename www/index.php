@@ -2,6 +2,7 @@
 <?php
    define('BASE_DIR', dirname(__FILE__));
    require_once(BASE_DIR.'/config.php');
+   require_once(BASE_DIR.'/pipan.php');
    $config = array();
    $debugString = "";
    $macros = array('error_soft','error_hard','start_img','end_img','start_vid','end_vid','end_box','do_cmd','motion_event','startstop');
@@ -68,18 +69,19 @@
          initCamPos();
          $mode = 1;
       } else if (file_exists("servo_on")){
+         initServoPos();
          $mode = 2;
       }
       if ($mode <> 0) {
          echo '<script type="text/javascript">set_panmode(',$mode,');</script>';
-         echo "<div class='container-fluid text-center liveimage'>";
-         echo "<div alt='Up' id='arrowUp' style='margin-bottom: 2px;width: 0;height: 0;border-left: 20px solid transparent;border-right: 20px solid transparent;border-bottom: 40px solid #428bca;font-size: 0;line-height: 0;vertical-align: middle;margin-left: auto; margin-right: auto;' onclick='servo_up();'></div>";
-         echo "<div>";
-         echo "<div alt='Left' id='arrowLeft' style='margin-right: 22px;display: inline-block;height: 0;border-top: 20px solid transparent;border-bottom: 20px solid transparent;border-right: 40px solid #428bca;font-size: 0;line-height: 0;vertical-align: middle;' onclick='servo_left();'></div>";
-         echo "<div alt='Right' id='arrowRight' style='margin-left: 22px;display: inline-block;height: 0;border-top: 20px solid transparent;border-bottom: 20px solid transparent;border-left: 40px solid #428bca;font-size: 0;line-height: 0;vertical-align: middle;' onclick='servo_right();'></div>";
-         echo "</div>";
-         echo "<div alt='Down' id='arrowDown' style='margin-top: 2px;width: 0;height: 0;border-left: 20px solid transparent;border-right: 20px solid transparent;border-top: 40px solid #428bca;font-size: 0;line-height: 0;vertical-align: middle;margin-left: auto; margin-right: auto;' onclick='servo_down();'></div>";
-         echo "</div>";
+#         echo "<div class='container-fluid text-center liveimage'>";
+#         echo "<div alt='Up' id='arrowUp' style='margin-bottom: 2px;width: 0;height: 0;border-left: 20px solid transparent;border-right: 20px solid transparent;border-bottom: 40px solid #428bca;font-size: 0;line-height: 0;vertical-align: middle;margin-left: auto; margin-right: auto;' onclick='servo_up();'></div>";
+#         echo "<div>";
+#         echo "<div alt='Left' id='arrowLeft' style='margin-right: 22px;display: inline-block;height: 0;border-top: 20px solid transparent;border-bottom: 20px solid transparent;border-right: 40px solid #428bca;font-size: 0;line-height: 0;vertical-align: middle;' onclick='servo_left();'></div>";
+#         echo "<div alt='Right' id='arrowRight' style='margin-left: 22px;display: inline-block;height: 0;border-top: 20px solid transparent;border-bottom: 20px solid transparent;border-left: 40px solid #428bca;font-size: 0;line-height: 0;vertical-align: middle;' onclick='servo_right();'></div>";
+#         echo "</div>";
+#         echo "<div alt='Down' id='arrowDown' style='margin-top: 2px;width: 0;height: 0;border-left: 20px solid transparent;border-right: 20px solid transparent;border-top: 40px solid #428bca;font-size: 0;line-height: 0;vertical-align: middle;margin-left: auto; margin-right: auto;' onclick='servo_down();'></div>";
+#         echo "</div>";
       }
    }
   
@@ -294,8 +296,14 @@
       </div>
 	  <?php simple_button(); ?>
       <div class="container-fluid text-center liveimage">
-         <div><img id="mjpeg_dest" <?php echo getLoadClass() . getImgWidth();?>
-		 <?php if(file_exists("pipan_on")) echo "ontouchstart=\"pipan_start()\""; ?> onclick="toggle_fullscreen(this);" src="./loading.jpg"></div>
+	  <div style="positionx:relative">
+           <img id="mjpeg_dest" <?php echo getLoadClass() . getImgWidth();?>
+		 <?php
+			if(file_exists("pipan_on")) echo "ontouchstart=\"pipan_start()\"";
+			if(file_exists("servo_on")) echo "onmousedown=\"pipan_start()\"";
+                  ?> oncontextmenu="toggle_fullscreen(this); return false;" onclick="pipan_click(this);" src="./loading.jpg" draggable="false">
+           <div id="marker" style="z-index:10;color:red;position:absolute;top:100px;left:100px;">x</div>
+         </div>
          <div id="main-buttons">
             <input id="video_button" type="button" class="btn btn-primary" <?php getdisplayStyle('actions', $userLevel); ?>>
             <input id="image_button" type="button" class="btn btn-primary" <?php getdisplayStyle('actions', $userLevel); ?>>
