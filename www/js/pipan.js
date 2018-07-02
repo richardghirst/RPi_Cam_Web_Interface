@@ -162,8 +162,8 @@ function pipan_move (e) {
   }
   moved = true;
 
-  var pan_temp = pan_start + Math.round((mouse_x-pipan_mouse_x)/5);
-  var tilt_temp = tilt_start + Math.round((pipan_mouse_y-mouse_y)/5);
+  var pan_temp = pan_start - Math.round((mouse_x-pipan_mouse_x)/5);
+  var tilt_temp = tilt_start - Math.round((pipan_mouse_y-mouse_y)/5);
   if(pan_temp > 250) pan_temp = 250;
   if(pan_temp < 50) pan_temp = 50;
   if(tilt_temp > 250) tilt_temp = 250;
