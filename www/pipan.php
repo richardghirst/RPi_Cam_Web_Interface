@@ -120,22 +120,22 @@
          case 'Xplus':
             $servoData['x'] += $servoData['XStep'];
             $servoData['x'] = min($servoData['x'], $servoData['XMax']);
-            $servo = '2=' . $servoData['x'] . "\n";
+            $servo = '1=' . $servoData['x'] . "\n";
             break;
          case 'Xminus':
             $servoData['x'] -= $servoData['XStep'];
             $servoData['x'] = max($servoData['x'], $servoData['XMin']);
-            $servo = '2=' . $servoData['x'] . "\n";
+            $servo = '1=' . $servoData['x'] . "\n";
             break;
          case 'Yminus':
             $servoData['y'] -= $servoData['YStep'];
             $servoData['y'] = max($servoData['y'], $servoData['YMin']);
-            $servo = '1=' . $servoData['y'] . "\n";
+            $servo = '0=' . $servoData['y'] . "\n";
             break;
          case 'Yplus':
             $servoData['y'] += $servoData['YStep'];
             $servoData['y'] = min($servoData['y'], $servoData['YMax']);
-            $servo = '1=' . $servoData['y'] . "\n";
+            $servo = '0=' . $servoData['y'] . "\n";
             break;
       }
       if ($servo != '') {

@@ -201,20 +201,20 @@ function pipan_click(e) {
   click_cnt++;
 
   if (click_cnt == 1) {
-      click_timeout = setTimeout(function () {
-	      console.log("timedout");
-        if (moved == false) {
-          console.log("toggle");
-          //pipan_toggle_fullscreen(e);
-        }
-        click_cnt = 0;
-      }, 250);
-    } else {
-      console.log("double-click");
-      clearTimeout(click_timeout);
-      pipan_doubleclick(e);
+    click_timeout = setTimeout(function () {
+            console.log("timedout");
+      if (moved == false) {
+        console.log("toggle");
+        //toggle_fullscreen(e);
+      }
       click_cnt = 0;
-    }
+    }, 250);
+  } else {
+    console.log("double-click");
+    clearTimeout(click_timeout);
+    pipan_doubleclick(e);
+    click_cnt = 0;
+  }
 }
 
 function pipan_doubleclick(e) {
@@ -232,31 +232,11 @@ function pipan_doubleclick(e) {
   ajax_pipan_start();
 }
 
-
-function pipan_toggle_fullscreen(e) {
-  var background = document.getElementById("background");
-
-  if(!background) {
-    background = document.createElement("div");
-    background.id = "background";
-    document.body.appendChild(background);
-  }
-  
-  if(e.className == "fullscreen") {
-    e.className = "";
-    background.style.display = "none";
-  }
-  else {
-    e.className = "fullscreen";
-    background.style.display = "block";
-  }
-}
-
 function init_pt(p,t) {
   console.log("init_pt(" + p + "," + t + ")");
   pan = p;
   tilt = t;
-  pipan_toggle_fullscreen(document.getElementById("mjpeg_dest"));
+  toggle_fullscreen(document.getElementById("mjpeg_dest"));
 }
 
 function set_panmode(m) {
