@@ -4,6 +4,9 @@
 function toggle_fullscreen(e) {
 
   var background = document.getElementById("background");
+   var d = new Date();
+   d.setTime(d.getTime() + (365*24*60*60*1000));
+   var expires = "expires="+d.toUTCString();
 
   if(!background) {
     background = document.createElement("div");
@@ -14,10 +17,12 @@ function toggle_fullscreen(e) {
   if(e.className == "fullscreen") {
     e.className = "";
     background.style.display = "none";
+    document.cookie="fullscreen_mode=0;" + expires;
   }
   else {
     e.className = "fullscreen";
     background.style.display = "block";
+    document.cookie="fullscreen_mode=1;" + expires;
   }
 
 }

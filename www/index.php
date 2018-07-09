@@ -185,7 +185,13 @@
    
    function getLoadClass() {
       global $config;
-      if(array_key_exists('fullscreen', $config) && $config['fullscreen'] == 1)
+      if(isset($_COOKIE['fullscreen_mode'])) {
+         if($_COOKIE['fullscreen_mode'] == '1')
+            return 'class="fullscreen" ';
+	 else
+	    return '';
+      }
+      else if(array_key_exists('fullscreen', $config) && $config['fullscreen'] == 1)
          return 'class="fullscreen" ';
       else
          return '';

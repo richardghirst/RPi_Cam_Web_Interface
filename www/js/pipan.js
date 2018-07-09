@@ -236,7 +236,6 @@ function init_pt(p,t) {
   console.log("init_pt(" + p + "," + t + ")");
   pan = p;
   tilt = t;
-  toggle_fullscreen(document.getElementById("mjpeg_dest"));
 }
 
 function set_panmode(m) {
